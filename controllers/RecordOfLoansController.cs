@@ -50,16 +50,16 @@ namespace BookCatalogMvc.Controllers
                     records = records.OrderBy(r => r.Book.Title);
                     break;
                 case "Borrowed on":
-                    records = records.OrderBy(r => r.DateBorrowed);
+                    records = records.OrderByDescending(r => r.DateBorrowed);
                     break;
                 case "User":
                     records = records.OrderBy(r => r.LibraryUser.Name);
                     break;
                 case "Due on":
-                    records = records.OrderBy(r => r.DateDue);
+                    records = records.OrderByDescending(r => r.DateDue);
                     break;
                 case "Returned on":
-                    records = records.OrderBy(r => r.DateReturned);
+                    records = records.OrderByDescending(r => r.DateReturned);
                     break;
             }
 
