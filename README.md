@@ -12,4 +12,4 @@ A Gold Member account has a longer loan period and may rack up more fines before
 
 Enjoy!
 
-click on BookCatalogMvc.sln to open the project. You will need Visual Studio installed on you machine.
+click on BookCatalogMvc.sln to open the project. You will need Visual Studio installed on your machine.
