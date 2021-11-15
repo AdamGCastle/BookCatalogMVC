@@ -1,0 +1,70 @@
+﻿@model IEnumerable<BookCatalogMvc.Models.LibraryUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumBooksOut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsGoldMember)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailAddress)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.FinesTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinesPaid)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Details"asp-route-id="@item.ID">@item.Name</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumBooksOut)
+            </td>
+            <td>
+                @(item.IsGoldMember ? "Yes" : "No")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAddress)
+            </td>           
+            <td>
+                @Html.DisplayFor(modelItem => item.FinesTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinesPaid)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+       
+}
+    </tbody>
+</table>
+
+@*<a class="btn-primary" asp-controller="LibraryUsers" asp-action="Reset">Reset All Records</a>
+<span>@ViewData["ResetConfirmed"]</span>
+<span>This button will delete everyone's records of fines and the number of Books they have out.</span>*@

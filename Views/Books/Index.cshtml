@@ -1,0 +1,122 @@
+﻿@model IEnumerable<BookCatalogMvc.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form method="get" class="form-group">
+    <label class="control-label">
+        Name:
+    </label>
+    <input class="p-2" type="text" name="searchString" />
+    <input type="submit" class="btn btn-primary btn-sm" />     
+   
+</form>
+
+<div class="d-flex bg-success text-white">
+    <div class="p-2" style="flex:1 0 40%">
+        Title
+    </div>
+    <div class="p-2" style="flex:1 0 20%">
+        Author
+    </div>
+    <div class="p-2" style="flex:1 0 10%">
+        Availble to Borrow
+    </div>
+    <div class="p-2" style="flex:1 0 20%">
+    </div>
+</div>
+
+<!--<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAvailable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BorrowedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DueInDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearPublished)
+            </th>
+            <th></th>
+        </tr>
+    </thead>-->
+    @*<tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAvailable)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BorrowedBy.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueInDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YearPublished)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>*@
+
+@foreach (var item in Model)
+{
+    <div class="d-flex border-left border-right border-bottom border-primary">
+        <div class="p-2" style="flex:1 0 40%">
+            @item.Title
+        </div>
+
+        <div class="p-2" style="flex:1 0 20%">
+            @item.Author.Name
+        </div>
+
+        <div class="p-2" style="flex:1 0 10%">
+            @(item.IsAvailable?"Yes":"No")
+        </div>
+
+        <form method="post" class="p-2 btn-group" style="flex:0 0 20%" role="group">
+            <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.ID">
+                View Book
+            </a>
+            <a class="btn btn-success btn-sm" asp-controller="Authors" asp-action="Details" asp-route-id="@item.Author.ID">
+                View Author
+            </a>
+        </form>
+    </div>
+}

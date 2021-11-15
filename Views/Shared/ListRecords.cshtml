@@ -1,0 +1,109 @@
+﻿@model IEnumerable<BookCatalogMvc.Models.RecordOfLoan>
+
+@{
+    ViewData["Title"] = "Loan Records";
+}
+
+<div class="jumbotron p-3">
+    <div class="d-flex align-items-center">
+        <h1 class="display-4 flex-grow-1">
+            Records
+        </h1>
+    </div>
+</div>
+
+<div class="p-2 btn-group" style="flex:0 0 20%" role="group">
+    <a class="btn btn-primary btn-sm" asp-action="Create">Take Out a Book</a>
+</div>
+<div class="p-2 btn-group" style="flex:0 0 5%" role="group"></div>
+<div class="p-2 btn-group" style="flex:0 0 20%" role="group">
+    <a class="btn btn-primary btn-sm" asp-action="ReturnBook">Return a Book</a>
+</div>
+<div class="p-2 btn-group" style="flex:0 0 5%" role="group"></div>
+
+<form>
+
+    <div class="p-2 btn-group" style="flex:0 0 20%" role="group">
+        <input type="submit" class="btn btn-outline-secondary btn-sm" name="filter" value="All" />
+        <input type="submit" class="btn btn-outline-secondary btn-sm" name="filter" value="Overdue" />
+        <input type="submit" class="btn btn-outline-secondary btn-sm" name="filter" value="Unreturned" />
+    </div>
+
+    <div class="d-flex bg-success text-white">
+        <div class="p-2" style="flex:1 0 20%">
+            <input asp-action="Index" type="submit" class="btn btn-success btn-sm" value="Book" name="sortField" />
+            @if (ViewBag.SortField == "Book")
+            {<span style="font-size:0.75em">&#9660</span>}
+        </div>
+        <div class="p-2" style="flex:1 0 20%">
+            <input asp-action="Index" input type="submit" class="btn btn-success btn-sm" value="User" name="sortField" />
+            @if (ViewBag.SortField == "User")
+            {<span style="font-size:0.75em">&#9660</span>}
+        </div>
+        <div class="p-2" style="flex:1 0 10%">
+            <input asp-action="Index" input type="submit" class="btn btn-success btn-sm" value="Borrowed" name="sortField" />
+            @if (ViewBag.SortField == "Borrowed")
+            {<span style="font-size:0.75em">&#9660</span>}
+        </div>
+        <div class="p-2" style="flex:1 0 10%">
+            <input asp-action="Index" input type="submit" class="btn btn-success btn-sm" value="Due" name="sortField" />
+            @if (ViewBag.SortField == "Due")
+            {<span style="font-size:0.75em">&#9660</span>}
+        </div>
+        <div class="p-2" style="flex:1 0 10%">
+            <input asp-action="Index" input type="submit" class="btn btn-success btn-sm" value="Returned" name="sortField" />
+            @if (ViewBag.SortField == "Returned")
+            {<span style="font-size:0.75em">&#9660</span>}
+        </div>
+        <div class="p-2" style="flex:1 0 10%">
+            <span>Fine (ZAR)</span>
+        </div>
+        <div class="p-2" style="flex:1 0 20%"></div>
+    </div>
+</form>
+
+
+@foreach (var item in Model)
+{
+    <div class="d-flex border-left border-right border-bottom border-primary">
+        <div class="p-2" style="flex:1 0 20%">
+            <a asp-controller="Books" asp-action="details" asp-route-id="@item.BookID">@item.Book.Title</a>
+        </div>
+        <div class="p-2" style="flex:1 0 20%">
+            <a asp-controller="LibraryUsers" asp-action="details" asp-route-id="@item.LibraryUserID">@item.LibraryUser.Name</a>
+        </div>
+        <div class="p-2" style="flex:1 0 10%">
+            @Html.DisplayFor(x => item.DateBorrowed)
+        </div>
+        <div class="p-2" style="flex:1 0 10%">
+            @Html.DisplayFor(x => item.DateDue)
+        </div>
+        <div class="p-2" style="flex:1 0 10%">
+            @Html.DisplayFor(x => item.DateReturned)
+        </div>
+        <div class="p-2" style="flex:1 0 10%">
+            @Html.DisplayFor(x => item.Fine)
+        </div>
+
+
+        <div class="p-2 btn-group justify-content-center" style="flex:1 0 20%" role="group">
+            <div style="flex:1 0 50%">
+                @if (!item.IsReturned)
+                {
+                    <form method="post">
+                        <input type="submit" class="btn btn-danger btn-sm mr-1" value="Quick Return" />
+                        <input type="hidden" name="RecordId" value="@item.ID" />
+                    </form>
+                }
+                else
+                {
+                    <div>Returned</div>
+                }
+            </div>
+            <div style="flex:1 0 50%">
+                <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.ID">Details</a>
+            </div>
+        </div>
+
+    </div>
+}
