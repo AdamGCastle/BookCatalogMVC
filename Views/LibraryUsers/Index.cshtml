@@ -25,11 +25,9 @@
                 @Html.DisplayNameFor(model => model.EmailAddress)
             </th>            
             <th>
-                @Html.DisplayNameFor(model => model.FinesTotal)
+                @Html.DisplayNameFor(model => model.FinesOutstanding)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FinesPaid)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -49,11 +47,9 @@
                 @Html.DisplayFor(modelItem => item.EmailAddress)
             </td>           
             <td>
-                @Html.DisplayFor(modelItem => item.FinesTotal)
+                @Html.DisplayFor(modelItem => item.FinesOutstanding)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FinesPaid)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
