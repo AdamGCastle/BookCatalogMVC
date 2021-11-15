@@ -11,3 +11,5 @@ Afer returning a book, a fine will automatically be generated and assigned to th
 A Gold Member account has a longer loan period and may rack up more fines before they are unable to take out a book.
 
 Enjoy!
+
+click on BookCatalogMvc.sln to open the project. You will need Visual Studio installed on you machine.
