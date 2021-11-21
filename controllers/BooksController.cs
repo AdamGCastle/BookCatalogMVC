@@ -18,9 +18,7 @@ namespace BookCatalogMvc
         {
             _context = context;
         }
-        
-           
-
+                   
         public Author Author { get; set; }
        
         public Book Book { get; set; }
@@ -40,6 +38,8 @@ namespace BookCatalogMvc
                 books = books.Where(b => b.Title.Contains(searchString));
 
             }
+            var x = await books.ToListAsync();
+
 
             //switch (SortField)
             //{
@@ -51,7 +51,7 @@ namespace BookCatalogMvc
             //        break;
             //}
 
-            return View(await books.ToListAsync());
+            return View(x);
         }
                 
         public async Task<IActionResult> Details(int? id)

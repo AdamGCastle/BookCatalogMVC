@@ -6,7 +6,6 @@ namespace BookCatalogMvc.Models
 {
     public class RecordOfLoan
     {       
-
         public int ID { get; set; }
 
         [Required(ErrorMessage ="Please enter the title of the book you wish to take out.")]   

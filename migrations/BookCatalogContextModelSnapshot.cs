@@ -84,9 +84,6 @@ namespace BookCatalogMvc.Migrations
                     b.Property<double>("FinesPaid")
                         .HasColumnType("float");
 
-                    b.Property<double>("FinesTotal")
-                        .HasColumnType("float");
-
                     b.Property<bool>("IsGoldMember")
                         .HasColumnType("bit");
 

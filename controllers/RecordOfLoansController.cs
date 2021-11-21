@@ -143,7 +143,7 @@ namespace BookCatalogMvc.Controllers
 
             if (libraryUser == null) { ViewBag.InvalidUserError = "Please enter a valid User ID"; }
             if (bookToTakeOut == null) { ViewBag.InvalidBookError = "Please enter a valid Book ID"; }
-            if (libraryUser == null | bookToTakeOut == null) { return View(); }
+            if (libraryUser == null | bookToTakeOut == null) { return View(m); }
 
             NewRecord.Book = bookToTakeOut;
             NewRecord.LibraryUser = libraryUser;
@@ -259,30 +259,48 @@ namespace BookCatalogMvc.Controllers
         public async Task<IActionResult> ReturnBook(string SearchString1)
         {
             RecordOfLoanViewModel m = new RecordOfLoanViewModel();
-            
-            bool success = Int32.TryParse(SearchString1, out int userID);
-            if (success)
+
+            if(SearchString1 != null)
             {
-                var libraryUser = await _context.LibraryUsers
-                        .Include(l => l.Records)
-                        .AsNoTracking()
-                        .FirstOrDefaultAsync(l => l.ID == userID);
+                bool success = Int32.TryParse(SearchString1, out int userID);
+                if (success)
+                {
+                    var libraryUser = await _context.LibraryUsers
+                            .Include(l => l.Records)
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(l => l.ID == userID);
 
-                ViewBag.InvalidUserError = libraryUser == null ? "Please enter a valid User ID" : "";
+                    ViewBag.InvalidUserError = libraryUser == null ? "Please enter a valid User ID" : "";
 
+                    var unreturnedLoans = from r in _context.LoanRecords
+                                            .Include(r => r.Book)
+                                            .Include(r => r.LibraryUser)
+                                            .AsNoTracking()
+                                          where r.LibraryUser == libraryUser && r.IsReturned == false
+                                          select r;
+
+
+                    m.RecordList = unreturnedLoans.ToList();
+                    m.LibUser = libraryUser;
+                }
+                else if (SearchString1 != null)
+                {
+                    ViewBag.InvalidNumberError = "Please enter a number";
+                }
+
+            }
+            else
+            {
                 var unreturnedLoans = from r in _context.LoanRecords
-                                        .Include(r => r.Book)
-                                        .AsNoTracking()
-                                      where r.LibraryUser == libraryUser && r.IsReturned == false
+                                            .Include(r => r.Book)
+                                            .Include(r => r.LibraryUser)
+                                            .AsNoTracking()
+                                      where r.IsReturned == false
                                       select r;
 
-                m.RecordList = unreturnedLoans.ToList();
-                m.LibUser = libraryUser;
-            }
-            else if(SearchString1 != null)
-            {
-                ViewBag.InvalidNumberError = "Please enter a number";
-            }
+                m.RecordList = unreturnedLoans;
+            }           
+            
             if(m.LibUser != null && !m.RecordList.Any()) { ViewBag.NoRecords = "This User does not currently have any outstanding book loans."; }
             return View(m);            
         }
@@ -294,8 +312,7 @@ namespace BookCatalogMvc.Controllers
             RecordOfLoanViewModel m = new RecordOfLoanViewModel();
             if(Record.DateReturned == null) 
             {
-                ViewBag.DateReturnedError = "Please enter the date in the format DD/MM/YYYY.";
-                
+                ViewBag.DateReturnedError = "Please enter the date in the format DD/MM/YYYY.";                
             }
 
             var book = await _context.Books.FirstOrDefaultAsync(b => b.ID == Record.BookID);
